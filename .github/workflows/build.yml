@@ -1,10 +1,10 @@
-name: Build Project Glass V7
+name: Build Project Glass V8
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'ProjectGlass_V7_FINAL.zip'
+      - 'ProjectGlass_V8_FINAL.zip'
       - '.github/workflows/build.yml'
 
 permissions:
@@ -17,10 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract Project Glass V7
+      - name: Extract Project Glass V8
         run: |
           mkdir -p source
-          unzip -o ProjectGlass_V7_FINAL.zip -d source
+          unzip -o ProjectGlass_V8_FINAL.zip -d source
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
@@ -45,7 +45,8 @@ jobs:
           yes | "$SDKMANAGER" --licenses || true
 
       - name: Install Android SDK packages
-        run: '"$SDKMANAGER" --install "platforms;android-35" "build-tools;35.0.0"'
+        run: |
+          "$SDKMANAGER" --install "platforms;android-35" "build-tools;35.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -60,5 +61,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Project-Glass-V7-APK
+          name: Project-Glass-V8-APK
           path: source/app/build/outputs/apk/debug/app-debug.apk
