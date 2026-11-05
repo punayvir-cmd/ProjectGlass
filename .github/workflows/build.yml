@@ -1,23 +1,22 @@
 
-name: Build Project Glass APK
+name: Build Project Glass V2
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'ProjectGlass_GitHub_Build.zip'
+      - 'ProjectGlass_V2_GitHub_Build.zip'
       - '.github/workflows/build.yml'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract project ZIP
-        run: unzip ProjectGlass_GitHub_Build.zip -d source
+      - name: Extract V2 project
+        run: unzip -o ProjectGlass_V2_GitHub_Build.zip -d source
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -27,9 +26,11 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          accept-android-sdk-licenses: true
-          packages: 'platforms;android-35 build-tools;35.0.0'
+
+      - name: Install SDK packages and accept licenses
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -37,11 +38,11 @@ jobs:
           gradle-version: '8.9'
 
       - name: Build APK
-        run: gradle -p source --no-daemon assembleDebug
+        run: cd source && gradle --no-daemon assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Project-Glass-APK
+          name: Project-Glass-V2-APK
           path: source/app/build/outputs/apk/debug/app-debug.apk
           
