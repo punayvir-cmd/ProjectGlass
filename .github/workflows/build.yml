@@ -1,10 +1,10 @@
-name: Build Glass UI V12 Control Centre
+name: Build Glass UI V10
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'Glass_UI_V12_CONTROL_CENTRE.zip'
+      - 'Glass_UI_V10_FINAL.zip'
       - '.github/workflows/build.yml'
 
 permissions:
@@ -17,10 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract Glass UI V12
+      - name: Extract Glass UI V10
         run: |
           mkdir -p source
-          unzip -o Glass_UI_V12_CONTROL_CENTRE.zip -d source
+          unzip -o Glass_UI_V10_FINAL.zip -d source
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
@@ -46,8 +46,7 @@ jobs:
 
       - name: Install Android SDK packages
         shell: bash
-        run: |
-          "$SDKMANAGER" --install "platforms;android-35" "build-tools;35.0.0"
+        run: '"$SDKMANAGER" --install "platforms;android-35" "build-tools;35.0.0"'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -62,5 +61,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Glass-UI-V12-APK
+          name: Glass-UI-V10-APK
           path: source/app/build/outputs/apk/debug/app-debug.apk
