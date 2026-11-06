@@ -1,11 +1,10 @@
-
-name: Build Glass UI V24
+name: Build Glass UI V25
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'Glass_UI_V24_DPAD_GLASS_FIX.zip'
+      - 'Glass_UI_V25_FOCUS_DRAWER_GLASS.zip'
       - '.github/workflows/build.yml'
 
 permissions:
@@ -18,10 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract Glass UI V24
+      - name: Extract Glass UI V25
         run: |
           mkdir -p source
-          unzip -o Glass_UI_V24_DPAD_GLASS_FIX.zip -d source
+          unzip -o Glass_UI_V25_FOCUS_DRAWER_GLASS.zip -d source
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
@@ -61,6 +60,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Glass-UI-V24-APK
+          name: Glass-UI-V25-APK
           path: source/app/build/outputs/apk/debug/app-debug.apk
-          
